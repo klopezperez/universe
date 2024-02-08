@@ -1,4 +1,3 @@
-from isim_comp import calculate_isim
 from FPSim2 import FPSim2Engine
 import numpy as np
 import pickle
@@ -11,5 +10,5 @@ def h5_to_fp(h5file, fp='ECFP4'):
     fps = bits.reshape(int(bits.size / (fps.shape[1]*8)), fps.shape[1]*8)
     if fp == 'MACCS':
         fps = fps[:, 1:167]
-    return fps
+    return np.array(fps)
 
