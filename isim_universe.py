@@ -13,16 +13,20 @@ class ChemGalaxy:
         self.size = len(self.fingerprints)
         self.indexes = self.fpe.fps[:, 0]
         self.isim = calculate_isim(self.fingerprints, n_objects=self.size, n_ary=n_ary)
-        self.comp_isim = calculate_comp_sim(self.fingerprints, n_ary=n_ary)
+
 
     def __str__(self):
         return self.name
     
     def __repr__(self):
         return self.name
-    
+
+    def calc_comp_isim(self):
+        self.comp_isim = calculate_comp_sim(self.fingerprints, n_ary=self.n_ary)   
+        
     def get_outliers(self, percentage = 0.05):
         # Get the indexes of the outliers (mols with highest comp_isim values)
+        if not self.comp_isim: self.calc_comp_isim()
         num_outliers = int(self.size * percentage)
         threshold = np.partition(self.comp_isim, -num_outliers)[-num_outliers]
         self.outliers = self.indexes[self.comp_isim > threshold]
@@ -30,6 +34,7 @@ class ChemGalaxy:
     
     def get_medoids(self, percentage = 0.05):
         # Get the indexes of the medoids (mols with lowest comp_isim values)
+        if not self.comp_isim: self.calc_comp_isim()
         num_medoids = int(self.size * percentage)
         threshold = np.partition(self.comp_isim, num_medoids)[num_medoids]
         self.medoids = self.indexes[self.comp_isim < threshold]
@@ -50,7 +55,7 @@ class ChemGalaxy:
 import glob
 for file in glob.glob('*.h5'):
     G = ChemGalaxy(file[:-3], file)
-    print(G.name, G.size, G.isim, G.get_isim(G.get_outliers()), G.get_isim(G.get_medoids()))
+    print(G.name, G.size, G.isim)
 
 
 
