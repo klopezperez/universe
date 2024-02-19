@@ -22,4 +22,4 @@ isim_df = isim_df.sort_values(by = 'database')
 isim_df = isim_df.reset_index(drop = True)
 
 # Safe the dataframe
-isim_df.to_csv('isim_universe.csv', index = False)
+isim_df.to_csv(args.directory + 'isim_universe.csv', index = False)
