@@ -47,7 +47,6 @@ class ChemGalaxy:
         if indexes_list is None: indexes_list = self.indexes
         indexes_list = np.array(indexes_list)
         indexes_list = np.where(np.isin(self.indexes, indexes_list))[0]
-        print(indexes_list)
         return self.comp_isim[indexes_list]
     
     def get_fingerprints(self, indexes_list = None):
@@ -60,7 +59,7 @@ class ChemGalaxy:
         if indexes_list is None: indexes_list = self.indexes
         indexes_list = np.array(indexes_list)
         indexes_list = np.where(np.isin(self.indexes, indexes_list))[0]
-        return np.sum(self.fingerprints[indexes_list], axis = 0)
+        return np.sum(self.fingerprints[indexes_list], axis = 0).tolist()
     
     def get_isim(self, indexes_list):
         if indexes_list is None: return self.isim
@@ -68,8 +67,3 @@ class ChemGalaxy:
         indexes_list = np.array(indexes_list)
         indexes_list = np.where(np.isin(self.indexes, indexes_list))[0]
         return calculate_isim(self.fingerprints[indexes_list], n_objects=len(indexes_list), n_ary=self.n_ary)
-
-
-
-
-
